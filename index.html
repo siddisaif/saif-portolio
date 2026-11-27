@@ -173,6 +173,20 @@
   .btn .arrow { transition: transform .4s var(--ease); }
   .btn:hover .arrow { transform: translateX(5px); }
 
+  /* Rotating homepage banner (changes every 15 days) */
+  #hero .banner {
+    position: absolute; inset: 0; z-index: 0;
+    background-size: cover; background-position: center;
+    opacity: .28; transition: opacity 1.2s var(--ease);
+    animation: bannerIn 1.6s var(--ease) both;
+  }
+  #hero .banner::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--bg) 8%, rgba(11,10,15,.55) 60%, rgba(11,10,15,.85) 100%);
+  }
+  @keyframes bannerIn { from { opacity: 0; transform: scale(1.06); } }
+  #hero .wrap { position: relative; z-index: 1; }
+
   /* Portrait card */
   .portrait {
     position: relative; aspect-ratio: 4/5; border-radius: 28px; overflow: hidden;
@@ -513,6 +527,7 @@
 
 <!-- ═══ HERO ═══ -->
 <section id="hero">
+  <div class="banner" id="banner" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div>
       <h1 class="hero-name">
@@ -678,7 +693,7 @@
 
       <a href="https://gjepc.org/" target="_blank" rel="noopener" class="proj reveal d1">
         <span class="idx">02</span>
-        <span class="kind">Trade portal . Event tech</span>
+        <span class="kind">Trade portal · Event tech</span>
         <h3>GJEPC: India International Jewellery Show</h3>
         <p>Registration platform for 100,000+ attendees, with visitor and exhibitor management, automated payments, coupon cards and entry passes.</p>
         <span class="go">View live <span>↗</span></span>
@@ -793,16 +808,32 @@
       <a href="tel:+918850469944">☎ +91 88504 69944</a>
       <a href="https://www.linkedin.com/in/siddisaif/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/siddisaif" target="_blank" rel="noopener">GitHub</a>
+      <a href="assets/docs/saif_resume_p_26.pdf" target="_blank" rel="noopener" download>↓ Download résumé</a>
     </div>
   </div>
 </section>
 
 <footer>
   <span>© 2026 Saifurrehman Siddiqui</span>
+  <a href="assets/docs/saif_resume_p_26.pdf" target="_blank" rel="noopener" download>↓ Download résumé</a>
   <span>Mumbai, India · Built with care</span>
 </footer>
 
 <script>
+  // Homepage banner: changes every 15 days.
+  // Add or rename images in assets/banners/ and list them here.
+  (function () {
+    const banners = [
+      'assets/banners/banner-1.jpg',
+      'assets/banners/banner-2.jpg',
+      'assets/banners/banner-3.jpg',
+    ];
+    const CHANGE_EVERY_DAYS = 15;
+    const period = Math.floor(Date.now() / 86400000 / CHANGE_EVERY_DAYS);
+    const src = banners[period % banners.length];
+    document.getElementById('banner').style.backgroundImage = `url("${src}")`;
+  })();
+
   // Mobile menu
   (function () {
     const btn = document.getElementById('menuBtn');
